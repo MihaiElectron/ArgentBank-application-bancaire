@@ -1,178 +1,178 @@
-# ArgentBank – Fullstack Project
+  # ArgentBank – Fullstack Project
 
-Fullstack banking application developed as part of the **OpenClassrooms Front-End Developer Program – Project 10**.
+  Fullstack banking application developed as part of the **OpenClassrooms Front-End Developer Program – Project 10**.
 
-The project contains:
+  The project contains:
 
-**React frontend**
-**Node.js / MongoDB backend API**
+  **React frontend**
+  **Node.js / MongoDB backend API**
 
----
+  ---
 
-# Project Structure
+  # Project Structure
 
-```
-ArgentBank
-│
-├── ArgentBank-Frontend   # React application
-│
-└── ArgentBank-Backend    # Node.js API
-```
+  ```
+  ArgentBank
+  │
+  ├── ArgentBank-Frontend   # React application
+  │
+  └── ArgentBank-Backend    # Node.js API
+  ```
 
----
+  ---
 
-# Features
+  # Features
 
-Frontend
+  Frontend
 
-* User authentication
-* JWT token management
-* User profile display
-* Username editing
-* Redux global state
+  * User authentication
+  * JWT token management
+  * User profile display
+  * Username editing
+  * Redux global state
 
-Backend
+  Backend
 
-* REST API
-* User authentication
-* MongoDB database
-* Swagger API documentation
+  * REST API
+  * User authentication
+  * MongoDB database
+  * Swagger API documentation
 
----
+  ---
 
-# Tech Stack
+  # Tech Stack
 
-Frontend
+  Frontend
 
-* React
-* Redux Toolkit
-* React Router
-* CSS
+  * React
+  * Redux Toolkit
+  * React Router
+  * CSS
 
-Backend
+  Backend
 
-* Node.js
-* Express
-* MongoDB
-* Swagger
+  * Node.js
+  * Express
+  * MongoDB
+  * Swagger
 
----
+  ---
 
-# Installation
+  # Installation
 
-## 1 Clone the repository
+  ## 1 Clone the repository
 
-```
-git clone https://github.com/your-username/argentbank.git
-```
+  ```
+  git clone https://github.com/your-username/argentbank.git
+  ```
 
-```
-cd argentbank
-```
+  ```
+  cd argentbank
+  ```
 
----
+  ---
 
-# Backend Setup
+  # Backend Setup
 
-Move to backend folder
+  Move to backend folder
 
-```
-cd ArgentBank-Backend
-```
+  ```
+  cd ArgentBank-Backend
+  ```
 
-Install dependencies
+  Install dependencies
 
-```
-npm install
-```
+  ```
+  npm install
+  ```
 
-Start server
+  Start server
 
-```
-npm run dev:server
-```
+  ```
+  npm run dev:server
+  ```
 
-Populate database
+  Populate database
 
-```
-npm run populate-db
-```
+  ```
+  npm run populate-db
+  ```
 
-Backend runs on
+  Backend runs on
 
-```
-http://localhost:3001
-```
+  ```
+  http://localhost:3001
+  ```
 
-Swagger API docs
+  Swagger API docs
 
-```
-http://localhost:3001/api-docs
-```
+  ```
+  http://localhost:3001/api-docs
+  ```
 
----
+  ---
 
-# Frontend Setup
+  # Frontend Setup
 
-Open a new terminal.
+  Open a new terminal.
 
-Move to frontend folder
+  Move to frontend folder
 
-```
-cd ArgentBank-Frontend
-```
+  ```
+  cd ArgentBank-Frontend
+  ```
 
-Install dependencies
+  Install dependencies
 
-```
-npm install
-```
+  ```
+  npm install
+  ```
 
-Run frontend
+  Run frontend
 
-```
-npm run dev
-```
+  ```
+  npm run dev
+  ```
 
-Application runs on
+  Application runs on
 
-```
-http://localhost:5173
-```
+  ```
+  http://localhost:5173
+  ```
 
----
+  ---
 
-# Test Users
+  # Test Users
 
-After populating the database:
+  After populating the database:
 
-Tony Stark
+  Tony Stark
 
-```
-Email: tony@stark.com
-Password: password123
-```
+  ```
+  Email: tony@stark.com
+  Password: password123
+  ```
 
-Steve Rogers
+  Steve Rogers
 
-```
-Email: steve@rogers.com
-Password: password456
-```
+  ```
+  Email: steve@rogers.com
+  Password: password456
+  ```
 
----
+  ---
 
-# Design Assets
+  # Design Assets
 
-Design files are available in the backend repository:
+  Design files are available in the backend repository:
 
-```
-/designs
-/designs/wireframes
-```
+  ```
+  /designs
+  /designs/wireframes
+  ```
 
----
+  ---
 
-# Author
+  # Author
 
-Project completed as part of the **OpenClassrooms Front-End Developer Program**.
+  Project completed as part of the **OpenClassrooms Front-End Developer Program**.
