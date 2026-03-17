@@ -1,6 +1,8 @@
 // Footer.jsx
 // Reproduction fidèle du footer HTML fourni dans ArgentBank-Frontend-Ref.
 
+import "./Footer.css";
+
 export default function Footer() {
   return (
     <footer className="footer">
