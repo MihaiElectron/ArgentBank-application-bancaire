@@ -1,11 +1,9 @@
 // Footer.jsx
-// Pied de page du site ArgentBank.
-// Correspond au footer présent dans toutes les pages HTML du dossier Frontend-Ref.
+// Reproduction fidèle du footer HTML fourni dans ArgentBank-Frontend-Ref.
 
 export default function Footer() {
   return (
     <footer className="footer">
-      {/* TODO : intégrer le style depuis ArgentBank-Frontend-Ref */}
       <p className="footer-text">Copyright 2020 Argent Bank</p>
     </footer>
   );

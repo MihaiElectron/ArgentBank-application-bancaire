@@ -1,39 +1,32 @@
 // Header.jsx
-// Composant d'en-tête du site ArgentBank.
-// Contient le logo + navigation (Sign In / User / Logout).
-// Le HTML/CSS final sera intégré depuis ArgentBank-Frontend-Ref/index.html.
-// Ce composant sera affiché sur toutes les pages via App.jsx.
+// Reproduction fidèle du header HTML fourni dans ArgentBank-Frontend-Ref.
+// Contient : logo, lien vers la home, lien Sign In avec icône FontAwesome.
+// Le CSS utilisé est celui de main.css (déjà présent dans le dossier de référence).
 
 import { Link } from "react-router-dom";
 import argentBankLogo from "../assets/argentBankLogo.png"; 
-// NOTE : place l'image dans src/assets/ (optimisation + cohérence Vite)
+// IMPORTANT : l'image doit être copiée depuis ArgentBank-Frontend-Ref/img vers src/assets/
 
 export default function Header() {
   return (
-    <header>
+    <nav className="main-nav">
       {/* Logo + lien vers la page d'accueil */}
-      <Link to="/" className="main-nav-logo">
+      <Link className="main-nav-logo" to="/">
         <img
+          className="main-nav-logo-image"
           src={argentBankLogo}
           alt="Argent Bank Logo"
-          className="main-nav-logo-image"
         />
         <h1 className="sr-only">Argent Bank</h1>
       </Link>
 
-      {/* Navigation principale */}
-      <nav className="main-nav">
-        <ul>
-          {/* TODO : afficher le nom de l'utilisateur si connecté (Redux) */}
-          <li>
-            <Link to="/sign-in" className="main-nav-item">
-              Sign In
-            </Link>
-          </li>
-
-          {/* TODO : si utilisateur connecté → afficher bouton Logout */}
-        </ul>
-      </nav>
-    </header>
+      {/* Zone de droite : Sign In (ou User + Logout plus tard via Redux) */}
+      <div>
+        <Link className="main-nav-item" to="/sign-in">
+          <i className="fa fa-user-circle"></i>
+          Sign In
+        </Link>
+      </div>
+    </nav>
   );
 }
