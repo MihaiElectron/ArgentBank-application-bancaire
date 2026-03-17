@@ -5,7 +5,7 @@
 
 import { Link } from "react-router-dom";
 import argentBankLogo from "../assets/argentBankLogo.png"; 
-// IMPORTANT : l'image doit être copiée depuis ArgentBank-Frontend-Ref/img vers src/assets/
+import "./Header.css";
 
 export default function Header() {
   return (
@@ -23,7 +23,7 @@ export default function Header() {
       {/* Zone de droite : Sign In (ou User + Logout plus tard via Redux) */}
       <div>
         <Link className="main-nav-item" to="/sign-in">
-          <i className="fa fa-user-circle"></i>
+          <i className="fa fa-user-circle"></i>{" "}
           Sign In
         </Link>
       </div>
