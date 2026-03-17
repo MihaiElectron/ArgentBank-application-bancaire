@@ -10,9 +10,16 @@ import Home from "./pages/Home.jsx";
 import SignIn from "./pages/SignIn.jsx";
 import User from "./pages/User.jsx";
 
+// Import des composants UI globaux
+import Header from "./components/Header.jsx";
+import Footer from "./components/Footer.jsx";
+
 export default function App() {
   return (
     <>
+      {/* Header affiché sur toutes les pages */}
+      <Header />
+
       {/* 
         Routes = conteneur des différentes routes de l'application.
         Route = correspondance entre une URL et un composant React.
@@ -27,6 +34,9 @@ export default function App() {
         {/* Tableau de bord utilisateur */}
         <Route path="/user" element={<User />} />
       </Routes>
+
+      {/* Footer affiché sur toutes les pages */}
+      <Footer />
     </>
   );
 }
