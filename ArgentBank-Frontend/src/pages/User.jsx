@@ -1,17 +1,30 @@
+// User.jsx
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 import "./User.css";
 
 export default function User() {
+  // On récupère les infos du user depuis Redux
+  const { isLoggedIn, firstName, lastName } = useSelector((state) => state.user);
+
+  // Protection de la route : si pas connecté → redirection
+  if (!isLoggedIn) {
+    return <Navigate to="/sign-in" />;
+  }
+
   return (
     <main className="main bg-dark">
       <div className="header">
         <h1>
-          Welcome back
-          <br />
-          Tony Jarvis!
+          Welcome back<br />
+          {firstName} {lastName}!
         </h1>
+
+        {/* Bouton Edit Name (fonctionnel à l'étape 3) */}
         <button className="edit-button">Edit Name</button>
       </div>
 
+      {/* Les comptes bancaires (HTML fourni par OC) */}
       <h2 className="sr-only">Accounts</h2>
 
       <section className="account">
