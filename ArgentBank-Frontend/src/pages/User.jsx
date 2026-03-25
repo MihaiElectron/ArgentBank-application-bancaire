@@ -1,16 +1,31 @@
 // User.jsx
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
+import { useState } from "react";
+import { updateUserProfile } from "../features/userSlice";
 import "./User.css";
 
 export default function User() {
-  // On récupère les infos du user depuis Redux
-  const { isLoggedIn, firstName, lastName } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
-  // Protection de la route : si pas connecté → redirection
+  // On récupère les infos du user depuis Redux
+  const { isLoggedIn, firstName, lastName, userName, token } = useSelector(
+    (state) => state.user
+  );
+
+  // Hooks AVANT tout return conditionnel
+  const [isEditing, setIsEditing] = useState(false);
+  const [newUserName, setNewUserName] = useState(userName || "");
+
+  // Protection de la route
   if (!isLoggedIn) {
     return <Navigate to="/sign-in" />;
   }
+
+  const handleSave = async () => {
+    await dispatch(updateUserProfile({ token, userName: newUserName }));
+    setIsEditing(false);
+  };
 
   return (
     <main className="main bg-dark">
@@ -20,11 +35,56 @@ export default function User() {
           {firstName} {lastName}!
         </h1>
 
-        {/* Bouton Edit Name (fonctionnel à l'étape 3) */}
-        <button className="edit-button">Edit Name</button>
+        {!isEditing && (
+          <button
+            className="edit-button"
+            onClick={() => setIsEditing(true)}
+          >
+            Edit Name
+          </button>
+        )}
       </div>
 
-      {/* Les comptes bancaires (HTML fourni par OC) */}
+      {/* FORMULAIRE ISOLÉ*/}
+      {isEditing && (
+        <div className="edit-user-card">
+          <h2 className="edit-title">Edit user info</h2>
+
+          <div className="edit-field">
+            <label htmlFor="username">User name</label>
+            <input
+              id="username"
+              type="text"
+              value={newUserName}
+              onChange={(e) => setNewUserName(e.target.value)}
+            />
+          </div>
+
+          <div className="edit-field">
+            <label>First name</label>
+            <input type="text" value={firstName} disabled />
+          </div>
+
+          <div className="edit-field">
+            <label>Last name</label>
+            <input type="text" value={lastName} disabled />
+          </div>
+
+          <div className="edit-buttons-row">
+            <button className="save-button" onClick={handleSave}>
+              Save
+            </button>
+            <button
+              className="cancel-button"
+              onClick={() => setIsEditing(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Comptes bancaires */}
       <h2 className="sr-only">Accounts</h2>
 
       <section className="account">
