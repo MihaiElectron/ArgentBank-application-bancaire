@@ -32,7 +32,7 @@ export default function User() {
       <div className="header">
         <h1>
           Welcome back<br />
-          {firstName} {lastName}!
+          {userName} !
         </h1>
 
         {!isEditing && (

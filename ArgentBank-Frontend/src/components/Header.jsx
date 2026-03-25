@@ -10,7 +10,7 @@ export default function Header() {
   const dispatch = useDispatch();
 
   // On récupère l'état utilisateur depuis Redux
-  const { isLoggedIn, firstName } = useSelector((state) => state.user);
+  const { isLoggedIn, userName } = useSelector((state) => state.user);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -39,7 +39,7 @@ export default function Header() {
           // Si connecté → prénom + Sign Out
           <>
             <Link className="main-nav-item" to="/user">
-              <i className="fa fa-user-circle"></i> {firstName}
+              <i className="fa fa-user-circle"></i> {userName}
             </Link>
 
             <Link className="main-nav-item" to="/" onClick={handleLogout}>
