@@ -1,0 +1,342 @@
+openapi: 3.0.3
+info:
+  title: Bank Argent API documentation
+  description: Contains all available API endpoints in this codebase
+  version: "1.0.0"
+
+servers:
+  - url: http://localhost:3001/api/v1
+    description: Local dev server
+
+tags:
+  - name: User
+    description: User authentication and profile management
+  - name: Accounts
+    description: Bank accounts and grouped transactions
+  - name: Transactions
+    description: Transaction details and editing
+
+security:
+  - bearerAuth: []
+
+paths:
+  /user/login:
+    post:
+      tags:
+        - User
+      summary: Login
+      description: API for Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Login"
+      responses:
+        "200":
+          description: Login Successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+
+  /user/signup:
+    post:
+      tags:
+        - User
+      summary: Signup
+      description: API for Signup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: Signup Successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+
+  /user/profile:
+    get:
+      tags:
+        - User
+      summary: User Profile API
+      description: API for fetching a user profile
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+
+    put:
+      tags:
+        - User
+      summary: Update user profile
+      description: API for updating a user profile
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserProfile"
+      responses:
+        "200":
+          description: User profile updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+
+  /accounts/{accountId}/transactions:
+    get:
+      tags:
+        - Accounts
+      summary: List transactions for a specific account
+      description: >
+        Returns all transactions for the given account, filtered by month (default: current month).
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: month
+          in: query
+          required: false
+          schema:
+            type: string
+            example: "2020-02"
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of transactions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accountId:
+                    type: string
+                  month:
+                    type: string
+                  transactions:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Transaction"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Account not found
+
+  /transactions/{transactionId}:
+    get:
+      tags:
+        - Transactions
+      summary: Get transaction details
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Transaction details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+        "404":
+          description: Transaction not found
+
+    patch:
+      tags:
+        - Transactions
+      summary: Update transaction fields
+      description: >
+        Allows updating category, note, or transactionType.
+        All fields are optional.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransactionUpdateRequest"
+      responses:
+        "200":
+          description: Transaction updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+        "400":
+          description: Invalid update payload
+        "404":
+          description: Transaction not found
+
+  /transactions/{transactionId}/note:
+    delete:
+      tags:
+        - Transactions
+      summary: Delete transaction note
+      description: Removes only the note field from the transaction.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Note deleted successfully
+        "404":
+          description: Transaction not found
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        userName:
+          type: string
+
+    UserProfile:
+      type: object
+      properties:
+        userName:
+          type: string
+
+    ApiResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        body:
+          type: object
+          properties:
+            id:
+              type: string
+            email:
+              type: string
+
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+        accountId:
+          type: string
+        date:
+          type: string
+          format: date
+        description:
+          type: string
+        amount:
+          type: number
+        balance:
+          type: number
+        transactionType:
+          type: string
+          enum: [Electronic, Check, Cash, Transfer]
+        category:
+          type: string
+          nullable: true
+        note:
+          type: string
+          nullable: true
+
+    TransactionUpdateRequest:
+      type: object
+      properties:
+        transactionType:
+          type: string
+          enum: [Electronic, Check, Cash, Transfer]
+        category:
+          type: string
+          nullable: true
+        note:
+          type: string
+          nullable: true
+      additionalProperties: false
