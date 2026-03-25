@@ -1,9 +1,8 @@
 // App.jsx
-// Point central de l'application : déclaration des routes principales.
-// React Router v7 utilise <Routes> et <Route> pour définir les chemins.
-// Chaque route pointe vers un composant de page (Home, SignIn, User).
-
 import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserProfile } from "./features/userSlice";
 
 // Import des pages
 import Home from "./pages/Home.jsx";
@@ -15,27 +14,26 @@ import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 
 export default function App() {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.user.token);
+
+  // Si un token existe (localStorage), on recharge le profil automatiquement
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchUserProfile(token));
+    }
+  }, [token, dispatch]);
+
   return (
     <>
-      {/* Header affiché sur toutes les pages */}
       <Header />
 
-      {/* 
-        Routes = conteneur des différentes routes de l'application.
-        Route = correspondance entre une URL et un composant React.
-      */}
       <Routes>
-        {/* Page d'accueil */}
         <Route path="/" element={<Home />} />
-
-        {/* Page de connexion */}
         <Route path="/sign-in" element={<SignIn />} />
-
-        {/* Tableau de bord utilisateur */}
         <Route path="/user" element={<User />} />
       </Routes>
 
-      {/* Footer affiché sur toutes les pages */}
       <Footer />
     </>
   );

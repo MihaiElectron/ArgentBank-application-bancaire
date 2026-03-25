@@ -52,10 +52,10 @@ export const fetchUserProfile = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    token: null,
+    token: localStorage.getItem("token") || null,
     firstName: null,
     lastName: null,
-    isLoggedIn: false,
+    isLoggedIn: !!localStorage.getItem("token"),
     loading: false,
     error: null,
   },
@@ -65,6 +65,8 @@ const userSlice = createSlice({
       state.firstName = null;
       state.lastName = null;
       state.isLoggedIn = false;
+
+      localStorage.removeItem("token");
     },
   },
   extraReducers: (builder) => {
@@ -78,6 +80,8 @@ const userSlice = createSlice({
         state.loading = false;
         state.token = action.payload;
         state.isLoggedIn = true;
+
+        localStorage.setItem("token", action.payload);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
