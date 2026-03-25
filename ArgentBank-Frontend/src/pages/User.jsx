@@ -45,7 +45,7 @@ export default function User() {
         )}
       </div>
 
-      {/* FORMULAIRE ISOLÉ*/}
+      {/* FORMULAIRE ISOLÉ */}
       {isEditing && (
         <div className="edit-user-card">
           <h2 className="edit-title">Edit user info</h2>
@@ -54,20 +54,36 @@ export default function User() {
             <label htmlFor="username">User name</label>
             <input
               id="username"
+              name="username"
               type="text"
+              autoComplete="username"
               value={newUserName}
               onChange={(e) => setNewUserName(e.target.value)}
             />
           </div>
 
           <div className="edit-field">
-            <label>First name</label>
-            <input type="text" value={firstName} disabled />
+            <label htmlFor="firstname">First name</label>
+            <input
+              id="firstname"
+              name="firstname"
+              type="text"
+              autoComplete="given-name"
+              value={firstName}
+              disabled
+            />
           </div>
 
           <div className="edit-field">
-            <label>Last name</label>
-            <input type="text" value={lastName} disabled />
+            <label htmlFor="lastname">Last name</label>
+            <input
+              id="lastname"
+              name="lastname"
+              type="text"
+              autoComplete="family-name"
+              value={lastName}
+              disabled
+            />
           </div>
 
           <div className="edit-buttons-row">
