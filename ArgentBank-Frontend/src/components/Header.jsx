@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../features/userSlice";
 
-import argentBankLogo from "../assets/argentBankLogo.png";
+import argentBankLogo from "../assets/argentBankLogo.webp";
 import "./Header.css";
 
 export default function Header() {

@@ -1,5 +1,5 @@
 import "./Hero.css";
-import bankTree from "../assets/bank-tree.jpeg";
+import bankTree from "../assets/bank-tree.webp";
 
 export default function Hero() {
   return (
