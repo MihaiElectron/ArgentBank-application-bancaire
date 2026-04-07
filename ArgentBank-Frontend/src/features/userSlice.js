@@ -84,6 +84,33 @@ export const updateUserProfile = createAsyncThunk(
 );
 
 /* ------------------------------------------
+   VALIDATE TOKEN : vérifie si le token est valide
+   → utilisé pour sécuriser la page /user
+------------------------------------------- */
+export const validateToken = createAsyncThunk(
+  "user/validateToken",
+  async (token, thunkAPI) => {
+    try {
+      const response = await fetch("http://localhost:3001/api/v1/user/profile", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        return thunkAPI.rejectWithValue("Token invalide");
+      }
+
+      const data = await response.json();
+      return data.body; // firstName, lastName, userName
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message || "Network error");
+    }
+  }
+);
+
+/* ------------------------------------------
    SLICE
 ------------------------------------------- */
 const userSlice = createSlice({
@@ -97,7 +124,11 @@ const userSlice = createSlice({
     loading: false,
     error: null,
   },
+
   reducers: {
+    /* ------------------------------------------
+       LOGOUT : supprime toutes les infos user
+    ------------------------------------------- */
     logout(state) {
       state.token = null;
       state.firstName = null;
@@ -108,9 +139,12 @@ const userSlice = createSlice({
       localStorage.removeItem("token");
     },
   },
+
   extraReducers: (builder) => {
     builder
-      /* LOGIN */
+      /* ------------------------------------------
+         LOGIN
+      ------------------------------------------- */
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -127,16 +161,36 @@ const userSlice = createSlice({
         state.error = action.payload;
       })
 
-      /* PROFILE */
+      /* ------------------------------------------
+         PROFILE
+      ------------------------------------------- */
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
         state.firstName = action.payload.firstName;
         state.lastName = action.payload.lastName;
         state.userName = action.payload.userName;
       })
 
-      /* UPDATE USERNAME */
+      /* ------------------------------------------
+         UPDATE USERNAME
+      ------------------------------------------- */
       .addCase(updateUserProfile.fulfilled, (state, action) => {
         state.userName = action.payload.userName;
+      })
+
+      /* ------------------------------------------
+         VALIDATE TOKEN : si token valide → hydrate user
+         si token invalide → déconnexion automatique
+      ------------------------------------------- */
+      .addCase(validateToken.fulfilled, (state, action) => {
+        state.isLoggedIn = true;
+        state.firstName = action.payload.firstName;
+        state.lastName = action.payload.lastName;
+        state.userName = action.payload.userName;
+      })
+      .addCase(validateToken.rejected, (state) => {
+        state.isLoggedIn = false;
+        state.token = null;
+        localStorage.removeItem("token");
       });
   },
 });

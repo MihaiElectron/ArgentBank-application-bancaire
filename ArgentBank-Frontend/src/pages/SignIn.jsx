@@ -68,7 +68,6 @@ export default function SignIn() {
           {/* Affichage de l'erreur si login échoue */}
           {error && <p className="error-message">{error}</p>}
 
-          {/* Le bouton respecte ton design */}
           <button className="sign-in-button" type="submit" disabled={loading}>
             {loading ? "Loading..." : "Sign In"}
           </button>

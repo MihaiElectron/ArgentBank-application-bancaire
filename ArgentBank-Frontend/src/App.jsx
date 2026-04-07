@@ -8,6 +8,7 @@ import { fetchUserProfile } from "./features/userSlice";
 import Home from "./pages/Home.jsx";
 import SignIn from "./pages/SignIn.jsx";
 import User from "./pages/User.jsx";
+import PrivateRoute from "./components/PrivateRoute";
 
 // Import des composants UI globaux
 import Header from "./components/Header.jsx";
@@ -17,7 +18,7 @@ export default function App() {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.user.token);
 
-  // Si un token existe (localStorage), on recharge le profil automatiquement
+  // 🔥 Si un token existe (localStorage), on recharge le profil automatiquement
   useEffect(() => {
     if (token) {
       dispatch(fetchUserProfile(token));
@@ -31,7 +32,14 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/user" element={<User />} />
+        <Route 
+          path="/user" 
+          element={
+            <PrivateRoute>
+              <User />
+            </PrivateRoute>
+          } 
+        />
       </Routes>
 
       <Footer />

@@ -1,27 +1,48 @@
 // User.jsx
 import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { useState } from "react";
-import { updateUserProfile } from "../features/userSlice";
+import { useState, useEffect } from "react";
+import { updateUserProfile, validateToken } from "../features/userSlice";
 import "./User.css";
 
 export default function User() {
   const dispatch = useDispatch();
 
-  // On récupère les infos du user depuis Redux
+  /* ------------------------------------------
+     RÉCUPÉRATION DES DONNÉES USER DEPUIS REDUX
+  ------------------------------------------- */
   const { isLoggedIn, firstName, lastName, userName, token } = useSelector(
     (state) => state.user
   );
 
-  // Hooks AVANT tout return conditionnel
+  /* ------------------------------------------
+     HOOKS LOCAUX (AVANT TOUT RETURN CONDITIONNEL)
+  ------------------------------------------- */
   const [isEditing, setIsEditing] = useState(false);
   const [newUserName, setNewUserName] = useState(userName || "");
 
-  // Protection de la route
+  /* ------------------------------------------
+     VALIDATION AUTOMATIQUE DU TOKEN AU MONTAGE
+     → Si token invalide → Redux met isLoggedIn = false
+     → PrivateRoute ou Navigate redirige automatiquement
+  ------------------------------------------- */
+  useEffect(() => {
+    if (token) {
+      dispatch(validateToken(token));
+    }
+  }, [token, dispatch]);
+
+  /* ------------------------------------------
+     PROTECTION DE LA ROUTE
+     (Sécurité supplémentaire côté front)
+  ------------------------------------------- */
   if (!isLoggedIn) {
-    return <Navigate to="/sign-in" />;
+    return <Navigate to="/sign-in" replace />;
   }
 
+  /* ------------------------------------------
+     SAUVEGARDE DU NOUVEAU USERNAME
+  ------------------------------------------- */
   const handleSave = async () => {
     await dispatch(updateUserProfile({ token, userName: newUserName }));
     setIsEditing(false);
@@ -45,7 +66,9 @@ export default function User() {
         )}
       </div>
 
-      {/* FORMULAIRE ISOLÉ */}
+      {/* ------------------------------------------
+          FORMULAIRE D'ÉDITION DU USERNAME
+      ------------------------------------------- */}
       {isEditing && (
         <div className="edit-user-card">
           <h2 className="edit-title">Edit user info</h2>
@@ -100,7 +123,9 @@ export default function User() {
         </div>
       )}
 
-      {/* Comptes bancaires */}
+      {/* ------------------------------------------
+          COMPTES BANCAIRES (CONTENU STATIQUE)
+      ------------------------------------------- */}
       <h2 className="sr-only">Accounts</h2>
 
       <section className="account">
