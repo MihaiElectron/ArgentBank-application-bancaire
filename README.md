@@ -1,4 +1,6 @@
-  # ArgentBank – Fullstack Project
+  # ArgentBank – Fullstack Project 
+
+  ![ArgentBank](ArgentBank-Frontend/argentbank-ss.png)
 
   Fullstack banking application developed as part of the **OpenClassrooms Front-End Developer Program – Project 10**.
 
